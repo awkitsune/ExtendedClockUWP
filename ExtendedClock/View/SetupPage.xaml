@@ -1,12 +1,16 @@
 ﻿<Page
-    x:Class="ExtendedClock.MainPage"
+    x:Class="ExtendedClock.View.SetupPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ExtendedClock"
+    xmlns:local="using:ExtendedClock.View"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    MinHeight="480"
+    MinWidth="856"
+      RequestedTheme="Dark"
+      Loaded="Page_Loaded">
 
     <Grid>
 

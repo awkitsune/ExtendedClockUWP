@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ExtendedClock.View;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -7,6 +8,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,6 +25,8 @@ namespace ExtendedClock
     /// </summary>
     sealed partial class App : Application
     {
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
         /// <summary>
         /// Инициализирует одноэлементный объект приложения.  Это первая выполняемая строка разрабатываемого
         /// кода; поэтому она является логическим эквивалентом main() или WinMain().
@@ -66,7 +71,18 @@ namespace ExtendedClock
                     // Если стек навигации не восстанавливается для перехода к первой странице,
                     // настройка новой страницы путем передачи необходимой информации в качестве параметра
                     // параметр
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    /*
+                    if (localSettings.Values[Constant.KEY_FIRST_LAUNCH] as string != null)
+                    {
+                        rootFrame.Navigate(typeof(ClockPage), e.Arguments);
+                    }
+                    else
+                    {
+                        rootFrame.Navigate(typeof(SetupPage), e.Arguments);
+                    }
+                    */
+                    rootFrame.Navigate(typeof(ClockPage), e.Arguments);
+
                 }
                 // Обеспечение активности текущего окна
                 Window.Current.Activate();
