@@ -1,13 +1,13 @@
 ﻿namespace ExtendedClockService
 {
-    partial class ServerService
+    partial class Installer
     {
-        /// <summary> 
+        /// <summary>
         /// Обязательная переменная конструктора.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        /// <summary> 
         /// Освободить все используемые ресурсы.
         /// </summary>
         /// <param name="disposing">истинно, если управляемый ресурс должен быть удален; иначе ложно.</param>
@@ -22,25 +22,15 @@
 
         #region Код, автоматически созданный конструктором компонентов
 
-        /// <summary> 
+        /// <summary>
         /// Требуемый метод для поддержки конструктора — не изменяйте 
         /// содержимое этого метода с помощью редактора кода.
         /// </summary>
         private void InitializeComponent()
         {
-            this.eventLog1 = new System.Diagnostics.EventLog();
-            ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).BeginInit();
-            // 
-            // ServerService
-            // 
-            this.CanPauseAndContinue = true;
-            this.ServiceName = "ExtendedClockServerService";
-            ((System.ComponentModel.ISupportInitialize)(this.eventLog1)).EndInit();
-
+            components = new System.ComponentModel.Container();
         }
 
         #endregion
-
-        private System.Diagnostics.EventLog eventLog1;
     }
 }
