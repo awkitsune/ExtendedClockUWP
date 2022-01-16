@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedClock", "ExtendedCl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedClockServer", "ExtendedClockServer\ExtendedClockServer.csproj", "{5EEBD689-3236-43E5-922F-2E47CB4D4AC9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExtendedClockService", "ExtendedClockService\ExtendedClockService.csproj", "{80B85997-F509-4D59-88E9-31F98F92140F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +69,26 @@ Global
 		{5EEBD689-3236-43E5-922F-2E47CB4D4AC9}.Release|x64.Build.0 = Release|Any CPU
 		{5EEBD689-3236-43E5-922F-2E47CB4D4AC9}.Release|x86.ActiveCfg = Release|Any CPU
 		{5EEBD689-3236-43E5-922F-2E47CB4D4AC9}.Release|x86.Build.0 = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|ARM.Build.0 = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|x64.Build.0 = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Debug|x86.Build.0 = Debug|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|ARM.ActiveCfg = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|ARM.Build.0 = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|ARM64.Build.0 = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|x64.ActiveCfg = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|x64.Build.0 = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|x86.ActiveCfg = Release|Any CPU
+		{80B85997-F509-4D59-88E9-31F98F92140F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

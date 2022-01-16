@@ -80,7 +80,7 @@ namespace ExtendedClockServer
 
             Console.WriteLine("Started");
 
-            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), Constant.HOST_PORT);
+            IPEndPoint ipPoint = new IPEndPoint(IPAddress.Parse("0.0.0.0"), Constant.HOST_PORT);
             Socket listenSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             try

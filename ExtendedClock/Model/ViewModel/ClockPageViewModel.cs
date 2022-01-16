@@ -124,7 +124,7 @@ namespace ExtendedClock.Model.ViewModel
             }
             catch (Exception)
             {
-
+                HostLoadVisibility = Visibility.Collapsed;
             }
         }
         #endregion

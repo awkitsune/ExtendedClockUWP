@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
+using Windows.System.Display;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -26,6 +27,7 @@ namespace ExtendedClock.View
     {
         BrightnessOverride brigtnessControl;
         ApplicationView appView;
+        DisplayRequest displayRequest;
 
         public ClockPage()
         {
@@ -34,6 +36,8 @@ namespace ExtendedClock.View
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
+            displayRequest = new DisplayRequest();
+            displayRequest.RequestActive();
             brigtnessControl = BrightnessOverride.GetForCurrentView();
             appView = ApplicationView.GetForCurrentView();
             if (brigtnessControl.IsSupported)
