@@ -9,56 +9,159 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.Storage;
 using Windows.UI.ViewManagement;
+using ExtendedClock.View;
+using System.Net;
+using System.Net.Sockets;
+using System.Diagnostics;
 
 namespace ExtendedClock.Model.ViewModel
 {
     class ClockPageViewModel : BaseViewModel
     {
+        ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
+
+        private Random rnd = new Random();
         ApplicationView appView = ApplicationView.GetForCurrentView();
+
+        private string hostIpAddress = "";
+        private IPEndPoint hostIpPoint;
 
         private double cpuLoad  = 0.0;
         private double gpuLoad  = 0.0;
-        private double vramLoad = 0.0;
         private double ramLoad  = 0.0;
 
         private DateTime currentTime = DateTime.Now;
 
-        public ICommand ChangeFullScreen { get; private set; }
+        private Thickness savingMargin = new Thickness(16, 16, 16, 16);
+        private Visibility hostLoadVisibility = Visibility.Collapsed;
+
+        public ICommand OpenSettings { get; private set; }
 
         public ClockPageViewModel()
         {
-            ChangeFullScreen = new DelegateCommand(FullScreenSwitch);
+            OpenSettings = new DelegateCommand(Settings);
 
-            var modelUpdateTimer = new DispatcherTimer();
-            modelUpdateTimer.Interval = TimeSpan.FromMilliseconds(200);
-            modelUpdateTimer.Tick += UpdateInfo;
-            modelUpdateTimer.Start();
+            try
+            {
+                hostIpAddress = localSettings.Values[Constant.KEY_HOST_ADDRESS] as string;
+                hostIpPoint = new IPEndPoint(IPAddress.Parse(hostIpAddress), Constant.HOST_PORT);
+            }
+            catch (Exception)
+            {
+                
+            }
+
+            var timeUpdateTimer = new DispatcherTimer();
+            timeUpdateTimer.Interval = TimeSpan.FromMilliseconds(100);
+            timeUpdateTimer.Tick += UpdateTime;
+            timeUpdateTimer.Start();
+
+            var screenSaverTimer = new DispatcherTimer();
+            screenSaverTimer.Interval = TimeSpan.FromMinutes(2);
+            screenSaverTimer.Tick += UpdateMargin;
+            screenSaverTimer.Start();
+
+            var dataUpdateTimer = new DispatcherTimer();
+            dataUpdateTimer.Interval = TimeSpan.FromMilliseconds(1000);
+            dataUpdateTimer.Tick += GetDataFromHost;
+            dataUpdateTimer.Start();
         }
 
         #region Commands
-        private void FullScreenSwitch()
+        private void Settings()
         {
-            if (appView.IsFullScreenMode)
-            {
-                appView.ExitFullScreenMode();
-            }
-            else
-            {
-                appView.TryEnterFullScreenMode();
-            }
-
+            Frame rootFrame = Window.Current.Content as Frame;
+            rootFrame.Navigate(typeof(SetupPage));
         }
         #endregion
 
         #region Methods
-        void UpdateInfo(object sender, object e)
+        void UpdateTime(object sender, object e)
         {
             CurrentTime = DateTime.Now;
             //add data loading
         }
+        void UpdateMargin(object sender, object e)
+        {
+            SavingMargin = new Thickness(rnd.Next(8, 16), 16, 16, rnd.Next(8, 16));
+        }
+        void GetDataFromHost(object sender, object e)
+        {
+            var sb = new StringBuilder();
+
+            using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+            {
+                try
+                {
+                    socket.Connect(hostIpPoint);
+                    socket.Send(Encoding.Unicode.GetBytes("data"));
+
+                    var data = new byte[256];
+                    int bytes = 0;
+
+                    do
+                    {
+                        bytes = socket.Receive(data, data.Length, 0);
+                        sb.Append(Encoding.Unicode.GetString(data, 0, bytes));
+                    } while (socket.Available > 0);
+
+                    socket.Shutdown(SocketShutdown.Both);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.ToString());
+                }
+            }
+
+            var responce = sb.ToString();
+            var dataGot = responce.Split(';');
+            try
+            {
+                CpuLoad = dataGot[0];
+                GpuLoad = dataGot[1];
+                RamLoad = dataGot[2];
+                HostLoadVisibility = Visibility.Visible;
+            }
+            catch (Exception)
+            {
+
+            }
+        }
         #endregion
 
         #region Properties
+        public Visibility HostLoadVisibility
+        {
+            get => hostLoadVisibility;
+            private set
+            {
+                hostLoadVisibility = value;
+                OnPropertyChanged(nameof(HostLoadVisibility));
+                OnPropertyChanged(nameof(ConnectionVisibility));
+            }
+        }
+        public Visibility ConnectionVisibility
+        {
+            get
+            {
+                switch (hostLoadVisibility)
+                {
+                    case Visibility.Visible:
+                        return Visibility.Collapsed;
+                    default:
+                        return Visibility.Visible;
+                }
+            }
+        }
+        public Thickness SavingMargin
+        {
+            get => savingMargin;
+            private set
+            {
+                savingMargin = value;
+                OnPropertyChanged(nameof(SavingMargin));
+            }
+        }
         public string Time
         {
             get => currentTime.ToString("HH:mm:ss");
@@ -96,18 +199,9 @@ namespace ExtendedClock.Model.ViewModel
                 OnPropertyChanged(nameof(GpuLoad));
             }
         }
-        public string VramLoad
-        {
-            get => $"{vramLoad} %";
-            private set
-            {
-                vramLoad = Double.Parse(value);
-                OnPropertyChanged(nameof(VramLoad));
-            }
-        }
         public string RamLoad
         {
-            get => $"{ramLoad} %";
+            get => $"{ramLoad} MiB";
             private set
             {
                 ramLoad = Double.Parse(value);

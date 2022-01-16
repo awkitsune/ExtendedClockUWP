@@ -7,12 +7,56 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    MinHeight="480"
-    MinWidth="856"
       RequestedTheme="Dark"
       Loaded="Page_Loaded">
 
-    <Grid>
+    <Grid Margin="16">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        
+        <TextBlock Text="Extended Clock - Settings" 
+                   FontSize="36"
+                   FontFamily="Segoe UI Light"
+                   FontWeight="Light"
+                   Grid.ColumnSpan="2"/>
 
+        <ScrollViewer Grid.Row="1"
+                      Grid.ColumnSpan="2">
+            <Grid >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" 
+                           Text="Host IP Address"
+                           Margin="0 4"/>
+                <TextBox Grid.Row="1" 
+                         Margin="0"
+                         Name="addressTextBox"
+                         Width="200" 
+                         HorizontalAlignment="Left"
+                         InputScope="Number"
+                         MaxLength="15" />
+            </Grid>
+        </ScrollViewer>
+
+        <TextBlock Name="errorTextBlock"
+                   Grid.Row="2"
+                   VerticalAlignment="Center"
+                   Foreground="Red"/>
+        <Button Grid.Row="2"
+                Grid.Column="1"
+                Content="Save settings"
+                HorizontalAlignment="Right"
+                Click="Button_Click"/>
     </Grid>
 </Page>

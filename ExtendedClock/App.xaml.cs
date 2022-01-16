@@ -71,7 +71,6 @@ namespace ExtendedClock
                     // Если стек навигации не восстанавливается для перехода к первой странице,
                     // настройка новой страницы путем передачи необходимой информации в качестве параметра
                     // параметр
-                    /*
                     if (localSettings.Values[Constant.KEY_FIRST_LAUNCH] as string != null)
                     {
                         rootFrame.Navigate(typeof(ClockPage), e.Arguments);
@@ -80,9 +79,6 @@ namespace ExtendedClock
                     {
                         rootFrame.Navigate(typeof(SetupPage), e.Arguments);
                     }
-                    */
-                    rootFrame.Navigate(typeof(ClockPage), e.Arguments);
-
                 }
                 // Обеспечение активности текущего окна
                 Window.Current.Activate();

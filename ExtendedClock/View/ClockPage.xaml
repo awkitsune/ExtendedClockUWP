@@ -8,10 +8,9 @@
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       RequestedTheme="Dark"
-      MinHeight="480"
-      MinWidth="856"
       Loaded="Page_Loaded"
-      FontFamily="Segoe UI">
+      FontFamily="Segoe UI"
+      SizeChanged="Page_SizeChanged">
     <Page.DataContext>
         <viewModel:ClockPageViewModel />
     </Page.DataContext>
@@ -21,124 +20,127 @@
             <RowDefinition Height="36" />
             <RowDefinition />
         </Grid.RowDefinitions>
-        <StackPanel HorizontalAlignment="Right">
+
+        <StackPanel HorizontalAlignment="Right"
+                    Orientation="Horizontal">
             <Button Background="Transparent"
-                    Width="36"
-                    Height="36"
                     FontFamily="Segoe UI"
-                    Command="{Binding ChangeFullScreen}">
-                <FontIcon Glyph="⤢"
-                          FontFamily="Segoe UI"/>
+                    Command="{Binding OpenSettings}">
+                <SymbolIcon Symbol="Setting" />
             </Button>
         </StackPanel>
 
-        <Grid Grid.Row="1"
-              Name="infoGrid"
-              Margin="16">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
-            <Grid Grid.Row="1"
-                  Margin="0 0 0 8">
+        <StackPanel Visibility="{Binding ConnectionVisibility}"
+                    Grid.Row="0">
+            <ProgressBar VerticalAlignment="Top"
+                         IsIndeterminate="True"/>
+            <TextBlock Text="Trying to load data"
+                       FontSize="12"
+                       HorizontalAlignment="Center"
+                       FontFamily="Segoe UI Light" 
+                       FontWeight="Light"/>
+        </StackPanel>
+        
+        <ScrollViewer Grid.Row="1"
+                      Name="mainScrollViewer"
+                      HorizontalScrollMode="Disabled"
+                      VerticalScrollBarVisibility="Hidden">
+            <Grid Name="infoGrid"
+                  Margin="{Binding SavingMargin}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
+                <Grid Grid.Row="1"
+                      Margin="0 0 0 8"
+                      VerticalAlignment="Bottom"
+                      Visibility="{Binding HostLoadVisibility}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition />
+                        <RowDefinition />
+                    </Grid.RowDefinitions>
 
-                <TextBlock Grid.Column="0"
-                           Grid.Row="0"
-                           Text="CPU: "
-                           FontFamily="Segoe UI Light"
-                           FontWeight="Light"
-                           FontSize="24"
-                           Margin="0 0 4 4"/>
-                <TextBlock Grid.Column="0"
-                           Grid.Row="1"
-                           Text="GPU: "
-                           FontFamily="Segoe UI Light"
-                           FontWeight="Light"
-                           FontSize="24"
-                           Margin="0 0 4 4" />
-                <TextBlock Grid.Column="0"
-                           Grid.Row="2"
-                           Text="VRAM: "
-                           FontFamily="Segoe UI Light"
-                           FontWeight="Light"
-                           FontSize="24"
-                           Margin="0 0 4 4" />
-                <TextBlock Grid.Column="0"
-                           Grid.Row="3"
-                           Text="RAM: "
-                           FontFamily="Segoe UI Light"
-                           FontWeight="Light"
-                           FontSize="24"
-                           Margin="0 0 4 4" />
+                    <TextBlock Grid.Column="0"
+                               Grid.Row="0"
+                               Text="CPU: "
+                               FontFamily="Segoe UI Light"
+                               FontWeight="Light"
+                               FontSize="24"
+                               Margin="0 0 4 4" />
+                    <TextBlock Grid.Column="0"
+                               Grid.Row="1"
+                               Text="GPU: "
+                               FontFamily="Segoe UI Light"
+                               FontWeight="Light"
+                               FontSize="24"
+                               Margin="0 0 4 4" />
+                    <TextBlock Grid.Column="0"
+                               Grid.Row="2"
+                               Text="RAM: "
+                               FontFamily="Segoe UI Light"
+                               FontWeight="Light"
+                               FontSize="24"
+                               Margin="0 0 4 4" />
 
-                <TextBlock Name="cpuPercentage"
-                        Grid.Column="1"
-                        Grid.Row="0"
-                        Text="10.5 %"
-                        FontFamily="Segoe UI Light"
-                        FontWeight="Light"
-                        FontSize="24"/>
-                <TextBlock Name="gpuPercentage"
-                           Grid.Column="1"
-                           Grid.Row="1"
-                           Text="98.5 %"
-                           FontFamily="Segoe UI Light"
-                           FontWeight="Light"
-                           FontSize="24" />
-                <TextBlock Name="gpuMemory"
-                           Grid.Column="1"
-                           Grid.Row="2"
-                           Text="1849.2 MiB"
-                           FontFamily="Segoe UI Light"
-                           FontWeight="Light"
-                           FontSize="24" />
-                <TextBlock Name="ramMB"
-                           Grid.Column="1"
-                           Grid.Row="3"
-                           Text="8068.5 MiB"
-                           FontFamily="Segoe UI Light"
-                           FontWeight="Light"
-                           FontSize="24" />
+                    <TextBlock Name="cpuPercentage"
+                               Grid.Column="1"
+                               Grid.Row="0"
+                               Text="{Binding CpuLoad}"
+                               FontFamily="Segoe UI Light"
+                               FontWeight="Light"
+                               FontSize="24" />
+                    <TextBlock Name="gpuPercentage"
+                               Grid.Column="1"
+                               Grid.Row="1"
+                               Text="{Binding GpuLoad}"
+                               FontFamily="Segoe UI Light"
+                               FontWeight="Light"
+                               FontSize="24" />
+                    <TextBlock Name="ramMB"
+                               Grid.Column="1"
+                               Grid.Row="2"
+                               Text="{Binding RamLoad}"
+                               FontFamily="Segoe UI Light"
+                               FontWeight="Light"
+                               FontSize="24" />
+                </Grid>
+
+                <StackPanel Grid.Row="2"
+                            Orientation="Vertical"
+                            Margin="0"
+                            VerticalAlignment="Bottom">
+                    <TextBlock Name="dateTextBlock"
+                               Text="{Binding Date}"
+                               FontSize="36"
+                               Margin="0"
+                               FontFamily="Segoe UI"
+                               FontWeight="ExtraLight"
+                               VerticalAlignment="Bottom"
+                               LineHeight="20"
+                               LineStackingStrategy="BaselineToBaseline" />
+                    <TextBlock Name="clockTextBlock"
+                               Text="{Binding Time}"
+                               FontSize="96"
+                               Margin="0"
+                               FontFamily="Segoe UI Light"
+                               FontWeight="ExtraLight"
+                               VerticalAlignment="Bottom"
+                               LineHeight="1"
+                               LineStackingStrategy="BaselineToBaseline" />
+
+                </StackPanel>
+
             </Grid>
-
-            <StackPanel Grid.Row="2"
-                        Orientation="Vertical"
-                        Margin="0">
-                <TextBlock Name="dateTextBlock"
-                           Text="{Binding Date}"
-                           FontSize="36"
-                           Margin="0"
-                           FontFamily="Segoe UI"
-                           FontWeight="ExtraLight"
-                           VerticalAlignment="Bottom"
-                           LineHeight="20"
-                           LineStackingStrategy="BaselineToBaseline" />
-                <TextBlock Name="clockTextBlock"
-                           Text="{Binding Time}"
-                           FontSize="96"
-                           Margin="0"
-                           FontFamily="Segoe UI Light"
-                           FontWeight="ExtraLight"
-                           VerticalAlignment="Bottom"
-                           LineHeight="1"
-                           LineStackingStrategy="BaselineToBaseline" />
-                
-            </StackPanel>
-
-        </Grid>
+        </ScrollViewer>
+        
     </Grid>
 </Page>

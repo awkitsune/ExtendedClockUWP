@@ -44,5 +44,10 @@ namespace ExtendedClock.View
 
             appView.TryEnterFullScreenMode();
         }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            mainScrollViewer.ChangeView(0, Double.MaxValue, 1);
+        }
     }
 }
