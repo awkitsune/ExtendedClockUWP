@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ServiceModel;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -85,7 +86,7 @@ namespace ExtendedClock.Model.ViewModel
         {
             SavingMargin = new Thickness(rnd.Next(8, 16), 16, 16, rnd.Next(8, 16));
         }
-        void GetDataFromHost(object sender, object e)
+        async void GetDataFromHost(object sender, object e)
         {
             var sb = new StringBuilder();
 
@@ -93,7 +94,7 @@ namespace ExtendedClock.Model.ViewModel
             {
                 try
                 {
-                    socket.Connect(hostIpPoint);
+                    await socket.ConnectAsync(hostIpPoint);
                     socket.Send(Encoding.Unicode.GetBytes("data"));
 
                     var data = new byte[256];
@@ -110,16 +111,18 @@ namespace ExtendedClock.Model.ViewModel
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.ToString());
-                }
+				}
             }
 
             var responce = sb.ToString();
             var dataGot = responce.Split(';');
             try
             {
+				
                 CpuLoad = dataGot[0];
                 GpuLoad = dataGot[1];
                 RamLoad = dataGot[2];
+
                 HostLoadVisibility = Visibility.Visible;
             }
             catch (Exception)
